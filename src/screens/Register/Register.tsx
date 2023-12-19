@@ -15,22 +15,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   formContainer: {
-    borderWidth: 0.5,
-    borderColor: palette.text,
+    shadowColor: palette.primary,
+    backgroundColor: palette.background,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.51,
+    shadowRadius: 13.16,
+    elevation: 20,
     paddingTop: 25,
     paddingBottom: 22,
     paddingHorizontal: 22,
-    borderRadius: 28,
+    borderRadius: 22,
   },
   inputContainer: {
     color: palette.text,
-    borderColor: palette.text,
-    borderBottomWidth: 0.5,
-    textAlign: 'right',
+    borderColor: palette.primary,
+    borderWidth: 0.5,
+    borderRadius: 8,
+    // textAlign: 'right',
     fontWeight: '400',
     paddingHorizontal: 10,
     marginBottom: 20,
-    fontSize: 18,
+    fontSize: 20,
   },
   title: {
     textAlign: 'center',
@@ -64,6 +72,8 @@ const RegisterComponent: React.FC = () => {
           placeholderTextColor={palette.primary}
           value={formData.email}
           onChangeText={handleEmailChange}
+          selectionColor={palette.primary}
+          cursorColor={palette.primary}
         />
         <TextInput
           testID="password-input"
