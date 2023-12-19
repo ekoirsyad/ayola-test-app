@@ -39,5 +39,14 @@ describe('RegisterComponent', () => {
     expect(input.props.value).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
   });
 
-  it.todo('should disable button if email and password are not valid');
+  it('should disable button if email and password are not valid', () => {
+    const {getByTestId} = render(<RegisterComponent />);
+
+    const emailInput = getByTestId('email-input');
+    const passwordInput = getByTestId('password-input');
+    const button = getByTestId('register-button');
+    fireEvent.changeText(emailInput, 'oneko.irgmail.com');
+    fireEvent.changeText(passwordInput, 'Password');
+    expect(button.props.accessibilityValue.disabled).toBeFalsy();
+  });
 });

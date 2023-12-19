@@ -38,7 +38,11 @@ const RegisterComponent: React.FC = () => {
         value={formData.password}
         onChangeText={handlePasswordChange}
       />
-      <Button disabled={isButtonDisabled} title="Register" />
+      <Button
+        testID="register-button"
+        disabled={isButtonDisabled}
+        title="Register"
+      />
     </View>
   );
 };
