@@ -9,7 +9,7 @@ import React from 'react';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import RegisterComponent from './src/components/Register/Register';
+import RegisterComponent from './src/screens/Register/Register';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
