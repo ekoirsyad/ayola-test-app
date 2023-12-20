@@ -2,13 +2,26 @@ import React from 'react';
 import {fireEvent, render, waitFor} from '@testing-library/react-native';
 import OTPScreen from './OneTimePass';
 
+const createTestProps = (props: Object) => ({
+  navigation: {
+    navigate: jest.fn(),
+  },
+  ...props,
+});
+
 describe('OneTimePassScreen', () => {
+  let props: any, wrapper: any;
+  beforeEach(() => {
+    props = createTestProps({});
+    wrapper = render(<OTPScreen {...props} />);
+  });
+
   it('should render correctly', () => {
-    render(<OTPScreen />);
+    wrapper;
   });
 
   it('Can assume the correct OTP is 111111.', () => {
-    const {getByTestId} = render(<OTPScreen />);
+    const {getByTestId} = wrapper;
     const input = getByTestId('otp-input');
 
     fireEvent.changeText(input, '111111');
@@ -16,7 +29,7 @@ describe('OneTimePassScreen', () => {
   });
 
   it('Countdown 30 seconds before they can click the “resend” button.', () => {
-    const {getByTestId} = render(<OTPScreen />);
+    const {getByTestId} = wrapper;
     const resendTimer = getByTestId('resend-timer');
     expect(resendTimer.props.children).toContain(30);
     waitFor(
@@ -29,7 +42,7 @@ describe('OneTimePassScreen', () => {
   });
 
   it('The resend button will refresh the timer.', () => {
-    const {getByTestId} = render(<OTPScreen />);
+    const {getByTestId} = wrapper;
     waitFor(
       () => {
         const resendButton = getByTestId('resend-button');

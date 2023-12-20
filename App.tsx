@@ -6,28 +6,23 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import RegisterComponent from './src/screens/Register/Register';
-import OTPScreen from './src/screens/OneTimePass/OneTimePass';
+import {SafeAreaView, StatusBar} from 'react-native';
+import {palette} from './src/styles/palette';
+import Nav from './src';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: palette.background,
     flex: 1,
   };
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        barStyle={'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      {/* <RegisterComponent /> */}
-      <OTPScreen />
+      <Nav />
     </SafeAreaView>
   );
 }

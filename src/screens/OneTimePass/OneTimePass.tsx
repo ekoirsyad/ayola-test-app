@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {palette} from '../../styles/palette';
+import {TOTP} from '../../helpers/types';
 
 const styles = StyleSheet.create({
   container: {
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const OTPScreen: React.FC = () => {
+const OTPScreen: React.FC<TOTP> = ({}: TOTP) => {
   const inputRef = useRef<TextInput>(null);
   const [otp, setOtp] = useState('');
   const boxArray = new Array(6).fill(0);
@@ -158,7 +159,10 @@ const OTPScreen: React.FC = () => {
         ) : (
           <TouchableOpacity
             testID="resend-button"
-            onPress={() => setResendTimer(30)}>
+            onPress={() => {
+              setResendTimer(30);
+              setOtp('');
+            }}>
             <Text style={styles.resend}>Resend code</Text>
           </TouchableOpacity>
         )}

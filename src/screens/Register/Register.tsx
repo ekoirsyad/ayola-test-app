@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import useRegisterForm from './useRegisterForm';
 import {palette} from '../../styles/palette';
+import {TRegister} from '../../helpers/types';
 
 const styles = StyleSheet.create({
   container: {
@@ -54,9 +55,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const RegisterComponent: React.FC = () => {
+const RegisterScreen: React.FC<TRegister> = ({navigation}: TRegister) => {
   const {formData, isButtonDisabled, handleEmailChange, handlePasswordChange} =
     useRegisterForm();
+
+  const onRegister = () => {
+    navigation.navigate('OTP', {
+      email: formData.email,
+      password: formData.password,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -89,10 +97,11 @@ const RegisterComponent: React.FC = () => {
           disabled={isButtonDisabled}
           title="Register"
           color={palette.primary}
+          onPress={onRegister}
         />
       </View>
     </View>
   );
 };
 
-export default RegisterComponent;
+export default RegisterScreen;

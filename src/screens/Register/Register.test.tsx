@@ -1,14 +1,26 @@
 import React from 'react';
 import {fireEvent, render} from '@testing-library/react-native';
-import RegisterComponent from './Register';
+import RegisterScreen from './Register';
 
-describe('RegisterComponent', () => {
+const createTestProps = (props: Object) => ({
+  navigation: {
+    navigate: jest.fn(),
+  },
+  ...props,
+});
+
+describe('RegisterScreen', () => {
+  let props: any, wrapper: any;
+  beforeEach(() => {
+    props = createTestProps({});
+    wrapper = render(<RegisterScreen {...props} />);
+  });
   it('renders correctly', () => {
-    render(<RegisterComponent />);
+    wrapper;
   });
 
   it('Password must contain at least 8 characters', () => {
-    const {getByTestId} = render(<RegisterComponent />);
+    const {getByTestId} = wrapper;
 
     const input = getByTestId('password-input');
     fireEvent.changeText(input, '12345678');
@@ -16,7 +28,7 @@ describe('RegisterComponent', () => {
   });
 
   it('Password must contain at least a lowercase letter', () => {
-    const {getByTestId} = render(<RegisterComponent />);
+    const {getByTestId} = wrapper;
 
     const input = getByTestId('password-input');
     fireEvent.changeText(input, 'Password@1');
@@ -24,7 +36,7 @@ describe('RegisterComponent', () => {
   });
 
   it('Password must contain at least an uppercase letter', () => {
-    const {getByTestId} = render(<RegisterComponent />);
+    const {getByTestId} = wrapper;
 
     const input = getByTestId('password-input');
     fireEvent.changeText(input, 'Password@1');
@@ -32,7 +44,7 @@ describe('RegisterComponent', () => {
   });
 
   it('Email must meet email format validation', () => {
-    const {getByTestId} = render(<RegisterComponent />);
+    const {getByTestId} = wrapper;
 
     const input = getByTestId('email-input');
     fireEvent.changeText(input, 'oneko.ir@gmail.com');
@@ -40,7 +52,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should disable button if email and password are not valid', () => {
-    const {getByTestId} = render(<RegisterComponent />);
+    const {getByTestId} = wrapper;
 
     const emailInput = getByTestId('email-input');
     const passwordInput = getByTestId('password-input');

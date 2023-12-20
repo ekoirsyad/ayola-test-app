@@ -33,7 +33,12 @@ const useRegisterForm = () => {
     }));
   }, []);
 
-  return {formData, handleEmailChange, handlePasswordChange, isButtonDisabled};
+  return {
+    formData,
+    handleEmailChange,
+    handlePasswordChange,
+    isButtonDisabled,
+  };
 };
 
 export default useRegisterForm;
