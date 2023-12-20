@@ -1,8 +1,9 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import useRegisterForm from './useRegisterForm';
 import {palette} from '../../styles/palette';
 import {TRegister} from '../../helpers/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -55,22 +56,42 @@ const styles = StyleSheet.create({
   },
 });
 
-const RegisterScreen: React.FC<TRegister> = ({navigation}: TRegister) => {
+const RegisterScreen: React.FC<TRegister> = ({
+  navigation,
+  route,
+}: TRegister) => {
+  const {isLoggedIn} = route.params;
   const {formData, isButtonDisabled, handleEmailChange, handlePasswordChange} =
     useRegisterForm();
 
-  const onRegister = () => {
+  const onRegister = async () => {
+    if (isLoggedIn) {
+      const getAsyncStorage = async () => {
+        const email = await AsyncStorage.getItem('email');
+        const password = await AsyncStorage.getItem('password');
+        if (email === formData.email && password === formData.password) {
+          navigation.replace('Home');
+        } else {
+          Alert.alert('Email or Password is incorrect');
+        }
+      };
+      getAsyncStorage();
+      return;
+    }
     navigation.navigate('OTP', {
       email: formData.email,
       password: formData.password,
     });
   };
 
+  const title = isLoggedIn ? 'Welcome back!' : 'Create your account';
+  const buttonLabel = isLoggedIn ? 'Login' : 'Register';
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>AYOLA</Text>
-        <Text style={styles.desc}>Create your account</Text>
+        <Text style={styles.desc}>{title}</Text>
       </View>
       <View style={styles.formContainer}>
         <TextInput
@@ -95,7 +116,7 @@ const RegisterScreen: React.FC<TRegister> = ({navigation}: TRegister) => {
         <Button
           testID="register-button"
           disabled={isButtonDisabled}
-          title="Register"
+          title={buttonLabel}
           color={palette.primary}
           onPress={onRegister}
         />

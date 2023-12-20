@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {palette} from '../../styles/palette';
 import {TOTP} from '../../helpers/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,7 +81,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const OTPScreen: React.FC<TOTP> = ({}: TOTP) => {
+const OTPScreen: React.FC<TOTP> = ({navigation, route}: TOTP) => {
+  const {email, password} = route.params;
+
   const inputRef = useRef<TextInput>(null);
   const [otp, setOtp] = useState('');
   const boxArray = new Array(6).fill(0);
@@ -105,11 +108,17 @@ const OTPScreen: React.FC<TOTP> = ({}: TOTP) => {
     };
   }, [otp]);
 
+  const saveOnStorage = useCallback(async () => {
+    await AsyncStorage.setItem('email', email);
+    await AsyncStorage.setItem('password', password);
+    navigation.replace('Register', {isLoggedIn: true});
+  }, [email, navigation, password]);
+
   useEffect(() => {
     if (resendTimer !== 0 && isPinReady && otp === '111111') {
-      console.log(isPinReady);
+      saveOnStorage();
     }
-  }, [isPinReady, resendTimer, otp]);
+  }, [isPinReady, resendTimer, otp, saveOnStorage]);
 
   return (
     <View style={styles.container}>

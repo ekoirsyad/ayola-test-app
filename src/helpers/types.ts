@@ -6,9 +6,11 @@ type TAuth = {
 };
 
 export type TRootStack = {
-  Register: undefined;
+  Register: {isLoggedIn?: boolean};
   OTP: TAuth;
+  Home: undefined;
 };
 
 export type TRegister = NativeStackScreenProps<TRootStack, 'Register'>;
 export type TOTP = NativeStackScreenProps<TRootStack, 'OTP'>;
+export type THome = NativeStackScreenProps<TRootStack, 'Home'>;

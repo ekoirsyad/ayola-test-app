@@ -6,6 +6,11 @@ const createTestProps = (props: Object) => ({
   navigation: {
     navigate: jest.fn(),
   },
+  route: {
+    params: {
+      isLoggedIn: false,
+    },
+  },
   ...props,
 });
 

@@ -1,4 +1,4 @@
-import {useState, useCallback, useMemo} from 'react';
+import {useState, useCallback, useMemo, useEffect} from 'react';
 import {isEmailValid, isPasswordValid} from '../../helpers';
 
 interface RegisterFormData {
@@ -11,6 +11,15 @@ const useRegisterForm = () => {
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    return () => {
+      setFormData({
+        email: '',
+        password: '',
+      });
+    };
+  }, []);
 
   const isButtonDisabled = useMemo(() => {
     return (

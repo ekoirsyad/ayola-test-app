@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OTPScreen from './screens/OneTimePass/OneTimePass';
 import RegisterScreen from './screens/Register/Register';
 import {TRootStack} from './helpers/types';
+import HomeScreen from './screens/Home/Home';
 
 const Stack = createNativeStackNavigator<TRootStack>();
 
@@ -14,8 +15,13 @@ export default function Nav() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          initialParams={{isLoggedIn: false}}
+        />
         <Stack.Screen name="OTP" component={OTPScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
