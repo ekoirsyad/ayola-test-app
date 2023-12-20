@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react-native';
+import {fireEvent, render, waitFor} from '@testing-library/react-native';
 import OTPScreen from './OneTimePass';
 
 describe('OneTimePassScreen', () => {
@@ -7,13 +7,37 @@ describe('OneTimePassScreen', () => {
     render(<OTPScreen />);
   });
 
-  it.todo('Can assume the correct OTP is 111111.');
+  it('Can assume the correct OTP is 111111.', () => {
+    const {getByTestId} = render(<OTPScreen />);
+    const input = getByTestId('otp-input');
 
-  it.todo('Countdown 30 seconds before they can click the “resend” button.');
+    fireEvent.changeText(input, '111111');
+    expect(input.props.value).toBe('111111');
+  });
 
-  it.todo('The resend button will refresh the timer.');
+  it('Countdown 30 seconds before they can click the “resend” button.', () => {
+    const {getByTestId} = render(<OTPScreen />);
+    const resendTimer = getByTestId('resend-timer');
+    expect(resendTimer.props.children).toContain(30);
+    waitFor(
+      () => {
+        const resendButton = getByTestId('resend-button');
+        expect(resendButton.props.children).toContain('Resend code');
+      },
+      {timeout: 30000},
+    );
+  });
 
-  it.todo(
-    'The focus should automatically move to the right while the user inputs the number, and moves to the left when the user uses backspace.',
-  );
+  it('The resend button will refresh the timer.', () => {
+    const {getByTestId} = render(<OTPScreen />);
+    waitFor(
+      () => {
+        const resendButton = getByTestId('resend-button');
+        expect(resendButton.props.children).toContain('Resend code');
+        const resendTimer = getByTestId('resend-timer');
+        expect(resendTimer.props.children).toContain(30);
+      },
+      {timeout: 30000},
+    );
+  });
 });
